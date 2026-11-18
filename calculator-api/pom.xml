@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+         https://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <!-- ===== Parent: Spring Boot BOM (Bill of Materials) ===== -->
+    <!-- This manages all Spring Boot dependency versions automatically -->
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>3.2.5</version>
+        <relativePath/>
+    </parent>
+
+    <!-- ===== Project Coordinates ===== -->
+    <groupId>com.exam</groupId>
+    <artifactId>calculator-api</artifactId>
+    <version>1.0.0</version>
+    <name>calculator-api</name>
+    <description>Calculator REST API - SOA Lab Exam</description>
+
+    <!-- ===== Java Version ===== -->
+    <properties>
+        <java.version>17</java.version>
+    </properties>
+
+    <dependencies>
+
+        <!-- ===== SPRING BOOT WEB ===== -->
+        <!-- Provides @RestController, @GetMapping, MockMvc, etc. -->
+        <!-- Also embeds Tomcat server so you can run without installing a server -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+
+        <!-- ===== SPRING BOOT TEST ===== -->
+        <!-- Provides JUnit 5, Mockito, MockMvc, @SpringBootTest, @WebMvcTest -->
+        <!-- scope=test means this is ONLY used during testing, not in production -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+    </dependencies>
+
+    <build>
+        <plugins>
+            <!-- Spring Boot Maven Plugin: lets you run with "mvn spring-boot:run" -->
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+
+            <!--
+                Maven Surefire Plugin — runs unit tests (mvn test)
+                On Java 21+, Mockito's byte-buddy inline mock maker needs:
+                  -XX:+EnableDynamicAgentLoading
+                to load its instrumentation agent without JVM warnings/errors.
+            -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <configuration>
+                    <argLine>
+                        -XX:+EnableDynamicAgentLoading
+                        -Xshare:off
+                    </argLine>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>
